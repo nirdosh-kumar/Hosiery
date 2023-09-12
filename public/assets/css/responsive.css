@@ -1,0 +1,31 @@
+@media screen and (max-width: 1920px) {
+	.page-mid {height: 88vh;}
+}
+
+@media screen and (max-width: 1400px) {
+
+}
+
+@media screen and (max-width: 1199px) {
+
+}
+
+@media screen and (max-width: 991px) {
+	.header-right-links ul li {margin-right: 15px;}
+}
+
+@media screen and (max-width: 767px) {
+
+}
+
+@media screen and (max-width: 576px) {
+	.login-5 .form-section h3 {font-size: 18px;}
+}
+
+@media screen and (max-width: 414px) {
+
+}
+
+@media screen and (max-width: 370px) {
+	
+}
