@@ -3,6 +3,7 @@ echo $this->extend('template/base');
 
 echo $this->section('css');
 ?>
+<link rel="stylesheet" href="<?php echo base_url(); ?>public/assets/lib/select2/dist/css/select2.min.css" />
 <?php 
 echo $this->endSection();
 
@@ -13,16 +14,14 @@ echo $this->section('content');
         <div class="col-12 col-sm-12">
           <div class="row">
 			  <div class="col-12">
-				<div id="sidebaricons" class="sidenav1">
-				  <a href="<?php echo base_url(); ?>user/add-user" id="add">Add <img src="<?php echo base_url(); ?>public/assets/img/icons/add-icon.png" class="ps-2" alt="Add" /></a>
-				  <a href="<?php echo base_url(); ?>user/list-user" id="edit">Edit <img src="<?php echo base_url(); ?>public/assets/img/icons/edit-icon.png" class="ps-2" alt="edit" /></a>
-				  <a href="javascript:void(0)" id="previous">Prev <img src="<?php echo base_url(); ?>public/assets/img/icons/prev-icon.png" class="ps-2" alt="Previous" /></a>
-				  <a href="javascript:void(0)" id="next">Next <img src="<?php echo base_url(); ?>public/assets/img/icons/next-icon.png" class="ps-2" alt="Next" /></a>
-				  <a href="javascript:void(0)" id="print">Print <img src="<?php echo base_url(); ?>public/assets/img/icons/print-icon.png" class="ps-2" alt="Next" /></a>
-				  <a href="javascript:void(0)" id="zoom">Zoom <img src="<?php echo base_url(); ?>public/assets/img/icons/zoom-icon.png" class="ps-2" alt="Next" /></a>
-				  <a href="javascript:void(0)" id="viewall">View <img src="<?php echo base_url(); ?>public/assets/img/icons/viewall-icon.png" class="ps-2" alt="Next" /></a>
-				  <a href="javascript:void(0)" id="filter">Filter <img src="<?php echo base_url(); ?>public/assets/img/icons/filter-icon.png" class="ps-2" alt="Next" /></a>
-				  <a href="javascript:void(0)" id="save">Save <img src="<?php echo base_url(); ?>public/assets/img/icons/save-icon.png" class="ps-2" alt="Next" /></a>
+				<div id="sidebaricons" class="sidenav1">				  
+				  <ul>
+						<li><a href="<?php echo base_url(); ?>user/add-user" class="">Add <img src="<?php echo base_url(); ?>public/assets/img/icons/add-icon.png" class="ps-2" alt="Add" /></a></li>
+						<li><a href="<?php echo base_url(); ?>user/list-user" class="">View <img src="<?php echo base_url(); ?>public/assets/img/icons/viewall-icon.png" class="ps-2" alt="edit" /></a></li>
+						<li><a href="<?php echo current_url(); ?>" class="activelink">Edit <img src="<?php echo base_url(); ?>public/assets/img/icons/edit-icon.png" class="ps-2" alt="View" /></a></li>
+						<li><a href="<?php echo base_url(); ?>user/delete-user/<?php echo $editRow['userID']; ?>" class="delete">Delete <img src="<?php echo base_url(); ?>public/assets/img/icons/delete-icon.png" class="ps-2" alt="Delete" /></a></li>
+						<li><a href="javascript:void(0)">Zoom <img src="<?php echo base_url(); ?>public/assets/img/icons/zoom-icon.png" class="ps-2" alt="Zoom" /></a></li>
+					</ul>
 				</div>
 			  </div>
 			</div>
@@ -48,7 +47,7 @@ echo $this->section('content');
 		  <label class="col-form-label">Name<sup>*</sup></label>
 		</div>
 		<div class="col-sm-7">
-		  <input type="text" class="form-control" name="user" id="user" value="<?php echo $editRow['userName']; ?>" />
+		  <input type="text" class="form-control" name="user" id="user" value="<?php echo $editRow['userName']; ?>" autocomplete="off" />
 		  <div class="invalid-feedback" id="error_user"></div>
 		</div>
 	  </div>
@@ -58,21 +57,32 @@ echo $this->section('content');
 		  <label class="col-form-label">Email Address<sup>*</sup></label>
 		</div>
 		<div class="col-sm-7">
-		  <input type="email" class="form-control" name="email" id="email" value="<?php echo $editRow['userEmail']; ?>" />
+		  <input type="email" class="form-control" name="email" id="email" value="<?php echo $editRow['userEmail']; ?>" autocomplete="off" />
 		  <div class="invalid-feedback" id="error_email"></div>
 		</div>
 	  </div>
 
 	  <div class="row mb-2">
 		<div class="col-sm-5">
-		  <label class="col-form-label">Position<sup>*</sup></label>
+		  <label class="col-form-label">Group<sup>*</sup></label>
 		</div>
 		<div class="col-sm-7">
-		  <select class="form-select" name="role" id="role">
-			<option value="">----</option>
-			<option value="Super" <?php if($editRow['userRole'] == 'Super') echo 'selected';?>>Super Admin</option>
-			<option value="Admin" <?php if($editRow['userRole'] == 'Admin') echo 'selected';?>>Admin</option>
-			<option value="Employee" <?php if($editRow['userRole'] == 'Employee') echo 'selected';?>>Employee</option>
+		  <select class="form-select js-example-basic-multiple" multiple="multiple" name="role[]" id="role">
+			<?php if(!empty($groupList)) {
+			foreach($groupList as $row){
+				$groupArr = explode(',', $editRow['groupID']);
+				?>
+				<option value="<?php echo $row['groupID']; ?>" 
+				<?php 
+				foreach($groupArr as $val){
+					if($val == $row['groupID']) echo 'selected';
+				}
+				?>
+				><?php echo $row['groupTitle']; ?></option>
+				<?php
+			}
+		}
+			?>
 		  </select>
 		  <div class="invalid-feedback" id="error_role"></div>
 		</div>
@@ -97,12 +107,12 @@ echo $this->section('content');
 		  <label class="col-form-label">Confirm Password</label>
 		</div>
 		<div class="col-sm-7">
-		  <input type="text" class="form-control" name="confirm" id="confirm" />
+		  <input type="password" class="form-control" name="confirm" id="confirm" />
 		  <div class="invalid-feedback" id="error_confirm"></div>
 		</div>
 	  </div>
 
-	  <div class="row mb-2">
+	  <?php /* <div class="row mb-2">
 		<div class="col-sm-5">
 		  <label class="col-form-label">Image<sup>*</sup></label>
 		</div>
@@ -113,7 +123,7 @@ echo $this->section('content');
 		  <a target="_new" href="<?php echo base_url(); ?>public/uploads/user/<?php echo $editRow['userImage']; ?>"></a>
 		  <?php } ?>
 		</div>
-	  </div>
+	  </div> */ ?>
   </div>
   <!-- Column 2 -->
 
@@ -163,59 +173,70 @@ echo $this->endSection();
 
 echo $this->section('js');
 ?>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<!-- Select2 -->
+<script src="<?php echo base_url(); ?>public/assets/lib/select2/dist/js/select2.min.js"></script>
 <script>
-	$("#userForm").submit(function(e){
-		e.preventDefault();
-		var form_data = new FormData(this);
-		form_data.append('userform', 'true');
-		$.ajax({
-			type: "POST",
-			url: $("#userForm").attr('action'),
-			data: form_data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			beforeSend:function(){
-				$("#userbtn").text("Please Wait...");
-			},
-			success:function(res){
-				$("#userbtn").text("Submit");
-				$('input[name="<?php echo csrf_token(); ?>"]').val(res.token);
-				
-				if(res.status == false) {
-					if(res.post){
-						$("#response").html("<div class='alert alert-danger' role='alert'>"+res.post+"</div>");
-					}
-					$("#userForm .invalid-feedback").each(function(){
-						let idstr;
-						var txt = $(this).attr('id').split("_");
-						idstr = txt[1];
-						console.log(idstr);
-						$("#"+idstr).removeClass('is-valid');
-						
-						if(res.message[idstr] != "" & res.message[idstr] != undefined){
-							$("#error_"+idstr).text(res.message[idstr]);
-							$("#"+idstr).addClass('is-invalid');
-							$( "input[name='"+idstr+"']" ).addClass('is-invalid');
-						}else{
-							$("#"+idstr).removeClass('is-invalid');
-							$( "input[name='"+idstr+"']" ).removeClass('is-invalid');
-							$("#error_"+idstr).text('');
-						}
-					});
-				}
-				if(res.status == true) {
-					//location.reload();
-					setTimeout(function(){
-						   window.location.href="<?php echo base_url(); ?>user/list-user";
-					  }, 1500);
-				}
+$('body').on('click', '.delete', function(){
+	var zz=confirm('Are you sure to delete this record');
+	if(zz==false){
+		return false;
+	}
+});
+$('.js-example-basic-multiple').select2();
+
+$("#userForm").submit(function(e){
+	e.preventDefault();
+	var form_data = new FormData(this);
+	form_data.append('userform', 'true');
+	$.ajax({
+		type: "POST",
+		url: $("#userForm").attr('action'),
+		data: form_data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		beforeSend:function(){
+			$("#userbtn").text("Please Wait...");
 		},
-		error:function(){
-			$("#response").html("<div class='alert alert-danger' role='alert'><strong>Oops!</strong> Try that again in a few moments.</div>");
+		success:function(res){
+			$("#userbtn").text("Submit");
+			$('input[name="<?php echo csrf_token(); ?>"]').val(res.token);
+			
+			if(res.status == false) {
+				if(res.post){
+					$("#response").html("<div class='alert alert-danger' role='alert'>"+res.post+"</div>");
+				}
+				$("#userForm .invalid-feedback").each(function(){
+					let idstr;
+					var txt = $(this).attr('id').split("_");
+					idstr = txt[1];
+					console.log(idstr);
+					$("#"+idstr).removeClass('is-valid');
+					
+					if(res.message[idstr] != "" & res.message[idstr] != undefined){
+						$("#error_"+idstr).text(res.message[idstr]);
+						$("#"+idstr).addClass('is-invalid');
+						$( "input[name='"+idstr+"']" ).addClass('is-invalid');
+					}else{
+						$("#"+idstr).removeClass('is-invalid');
+						$( "input[name='"+idstr+"']" ).removeClass('is-invalid');
+						$("#error_"+idstr).text('');
+					}
+				});
 			}
-		});
+			if(res.status == true) {
+				//location.reload();
+				setTimeout(function(){
+					   window.location.href="<?php echo base_url(); ?>user/list-user";
+				  }, 1500);
+			}
+	},
+	error:function(){
+		$("#response").html("<div class='alert alert-danger' role='alert'><strong>Oops!</strong> Try that again in a few moments.</div>");
+		}
 	});
+});
 </script>
 <?php 
 echo $this->endSection(); 

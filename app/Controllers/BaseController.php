@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-
+//use App\Models\User_model;
 /**
  * Class BaseController
  *
@@ -58,4 +58,11 @@ abstract class BaseController extends Controller
 		$this->security = \Config\Services::security();
 		$this->validation =  \Config\Services::validation();
     }
+	/* static function user_info(){
+		$User_model = new User_model();
+		$row = $User_model->list_user(session()->get('login_id'));
+		return [
+			'username'=>$row['userName'],
+		];
+	} */
 }

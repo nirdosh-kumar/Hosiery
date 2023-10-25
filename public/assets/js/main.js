@@ -14,3 +14,20 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.body.style.backgroundColor = "white";
 }
+
+//Select2 Js
+/* $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+
+$(".js-example-placeholder-single").select2({
+    placeholder: "",
+    allowClear: true
+});
+
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+}); */
+
+//DataTable Js
+//new DataTable('#datatable, #datatable1, #datatable2');

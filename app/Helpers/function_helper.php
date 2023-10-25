@@ -77,4 +77,31 @@ if( ! function_exists('cleanurl')){
 		return strtolower($str);
 	}
 }
+if( ! function_exists('ltrimr')){
+	function ltrimr($str){
+		$str=ltrim($str);
+		$str=rtrim($str);
+		return $str;
+	}
+}
+if( ! function_exists('sort_length')){
+	function sort_length(){
+		return 4;
+	}
+}
+if( ! function_exists('sort_value')){
+	function sort_value(){
+		return 9999;
+	}
+}
+if( ! function_exists('spl_alpha')){
+	function spl_alpha(){
+		return 'a-zA-Z0-9 &,.#(\/)-';
+	}
+}
+if( ! function_exists('spl_num')){
+	function spl_num(){
+		return '0-9 -';
+	}
+}
 ?>

@@ -32,12 +32,12 @@ class LoginFilter implements FilterInterface
         if(session()->has('login_id')){
 			$checkrow = $this->Userlogin_model->check_login();
 			if($checkrow == false){
-				return redirect()->to(base_url().'/login');
+				return redirect()->to(base_url().'login');
 			}
-			if(!empty($segment) & $segment !== 'dashboard'){
+			if(!empty($segment) & $segment !== 'dashboard/'){
 				$rightrow = $this->Userlogin_model->check_right($segment);
 				if($rightrow == false){
-					return redirect()->to(base_url().'/dashboard');
+					return redirect()->to(base_url().'dashboard');
 				}	
 			}
 		}else{

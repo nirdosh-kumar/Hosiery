@@ -43,6 +43,7 @@ class Home extends BaseController {
 			}
 			return $this->response->setJSON($response);
 		}else{
+			$data['editRow'] = $this->Home_model->user_info();
 			echo view('dashboard', $data);	
 		}
     }
